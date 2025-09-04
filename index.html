@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Плитки навигации</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #c8d1da;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1100px;
+        width: 100%;
+      }
+
+      .title {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #2d3436;
+      }
+
+      .title h1 {
+        font-weight: 600;
+        font-size: 2.5rem;
+      }
+
+      .title p {
+        margin-top: 10px;
+        color: #636e72;
+        font-size: 1.1rem;
+      }
+
+      .tiles-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        justify-items: center;
+      }
+
+      .tile {
+        width: 100%;
+        max-width: 280px;
+        background: white;
+        border-radius: 16px;
+        padding: 30px 25px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .tile::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+      }
+
+      .tile:nth-child(2)::before {
+        background: linear-gradient(90deg, #00b894, #00cec9);
+      }
+
+      .tile:nth-child(3)::before {
+        background: linear-gradient(90deg, #fd79a8, #fab1a0);
+      }
+
+      .tile:nth-child(4)::before {
+        background: linear-gradient(90deg, #fdcb6e, #ffeaa7);
+      }
+
+      .tile:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      }
+
+      .tile-content {
+        z-index: 1;
+      }
+
+      .tile-icon {
+        margin-bottom: 15px;
+      }
+
+      .tile h2 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        color: #2d3436;
+      }
+
+      .tile p {
+        color: #636e72;
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+
+      /* Анимация клика */
+      .tile:active {
+        transform: scale(0.98);
+      }
+
+      /* Адаптивность для мобильных устройств */
+      @media (max-width: 768px) {
+        .tiles-container {
+          grid-template-columns: 1fr;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+
+        .title h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1>Калькулятор параметров волнистости</h1>
+        <p>Выберите подходящий рассчет</p>
+      </div>
+
+      <div class="tiles-container">
+        <div class="tile" onclick="navigateTo('page1.html')">
+          <div class="tile-content">
+            <div class="tile-icon">
+              <img src="/img/F-icon.png" alt="" width="60" height="60" />
+            </div>
+            <h2>Найти частоту колебаний</h2>
+            <p>
+              Вычисляет частоту относительных колебаний резца и заготовки
+              приводящих к заданной волнистости при известных: частоте вращения,
+              подаче и длинне волны.
+            </p>
+          </div>
+        </div>
+
+        <div class="tile" onclick="navigateTo('page2.html')">
+          <div class="tile-content">
+            <div class="tile-icon">
+              <img src="/img/n-icon.png" alt="" width="60" height="60" />
+            </div>
+            <h2>Найти частоту вращения</h2>
+            <p>
+              Вычисляет частоту вращения заготовки приводящих к заданной
+              волнистости при известных: частоте относительных колебаний, подаче
+              и длинне волны.
+            </p>
+          </div>
+        </div>
+
+        <div class="tile" onclick="navigateTo('page3.html')">
+          <div class="tile-content">
+            <div class="tile-icon">
+              <img src="/img/L-icon.png" alt="" width="60" height="60" />
+            </div>
+            <h2>Найти длину волны</h2>
+            <p>
+              Вычисляет длину волны колебаний резца и заготовки приводящих к
+              заданной волнистости при известных: частоте вращения, частоте
+              относительных колебаний и подаче.
+            </p>
+          </div>
+        </div>
+
+        <div class="tile" onclick="navigateTo('page4.html')">
+          <div class="tile-content">
+            <div class="tile-icon">
+              <img
+                src="/img/s-icon.png"
+                alt="Иконка подачи"
+                width="60"
+                height="60"
+              />
+            </div>
+            <h2>Найти подачу</h2>
+            <p>
+              Вычисляет подачу резца приводящую к заданной волнистости при
+              известных: частоте вращения, частоте относительных колебаний и
+              длинне волны.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function navigateTo(page) {
+        window.location.href = page;
+      }
+    </script>
+  </body>
+</html>

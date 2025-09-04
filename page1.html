@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Калькулятор частоты колебаний</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .title {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .title h1 {
+        font-weight: 600;
+        font-size: 2.2rem;
+        color: #2d3436;
+        margin-bottom: 10px;
+      }
+
+      .title p {
+        color: #636e72;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      .input-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+      }
+
+      .input-table th {
+        background-color: #6c5ce7;
+        color: white;
+        font-weight: 500;
+        padding: 20px;
+        text-align: center;
+        font-size: 1.2rem;
+      }
+
+      .input-table td {
+        padding: 15px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+      }
+
+      .input-table input {
+        width: 90%;
+        padding: 15px;
+        font-size: 1.2rem;
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .input-table input:focus {
+        border-color: #6c5ce7;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+      }
+
+      .result-container {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        border-left: 5px solid #6c5ce7;
+      }
+
+      .result-title {
+        font-size: 1.3rem;
+        color: #636e72;
+        margin-bottom: 15px;
+      }
+
+      .result-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2d3436;
+        margin-bottom: 10px;
+      }
+
+      .formula-info {
+        font-size: 1rem;
+        color: #636e72;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+        }
+
+        .input-table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        .input-table th,
+        .input-table td {
+          padding: 12px 8px;
+          font-size: 1rem;
+        }
+
+        .input-table input {
+          padding: 10px;
+          font-size: 1rem;
+        }
+
+        .result-value {
+          font-size: 2rem;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1>
+          Расчет χ: <br />
+          парных гармоник относительных колебаний.
+        </h1>
+        <p>
+          Введите параметры в таблицу ниже для автоматического расчета частоты
+          колебаний
+        </p>
+      </div>
+
+      <table class="input-table">
+        <thead>
+          <tr>
+            <th>s<br />Подача<br />(мм/об)</th>
+            <th>L<br />Шаг<br />(мм)</th>
+            <th>ω<br />Обороты<br />(об/с)</th>
+            <th>k<br />Мода<br />(номер)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input type="number" id="s" value="0.3" min="0" step="0.1" />
+            </td>
+            <td>
+              <input type="number" id="L" value="12.8" min="0.1" step="0.1" />
+            </td>
+            <td>
+              <input type="number" id="w" value="20.83" min="0" step="0.1" />
+            </td>
+            <td>
+              <input type="number" id="k" value="3" min="0" step="1" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="result-container">
+        <div class="result-title">Верхняя частота колебаний</div>
+        <div class="result-value" id="resultA">0</div>
+        <div class="result-title">Нижняя частота колебаний</div>
+        <div class="result-value" id="resultB">0</div>
+      </div>
+
+      <div class="formula-info">Формула расчета: χ = ω × |n ± s/L|</div>
+    </div>
+
+    <script>
+      // Функция для расчета результата
+      function calculateResult() {
+        // Получаем значения из input-полей
+        const s = parseFloat(document.getElementById("s").value) || 0;
+        const L = parseFloat(document.getElementById("L").value) || 0;
+        const w = parseFloat(document.getElementById("w").value) || 0;
+        const k = parseFloat(document.getElementById("k").value) || 0;
+
+        // Выполняем расчет по формуле (можно изменить на свою)
+        const modA = w * Math.abs(k + s / L);
+        const modB = w * Math.abs(k - s / L);
+
+        document.getElementById("resultA").textContent = `χ↑ = ${modA.toFixed(
+          5
+        )} Гц`;
+        document.getElementById("resultB").textContent = `χ↓ = ${modB.toFixed(
+          5
+        )} Гц`;
+      }
+
+      // Назначаем обработчики событий на все input-поля
+      document.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("input", calculateResult);
+      });
+
+      // Выполняем первоначальный расчет
+      calculateResult();
+    </script>
+  </body>
+</html>
